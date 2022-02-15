@@ -1,0 +1,106 @@
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+#include <fstream>
+
+using namespace std;
+
+ifstream f("date.in");
+ofstream g("date.out");
+
+int n,a[100] ,v[100] ;
+
+
+void citire ()
+{
+	int x , k=1;
+	while (f>>x)
+		v[k++]=x;
+	n=k-1;
+}
+
+void copie ()
+{
+	for (int i=1;i<n;i++)
+		a[i]=v[i];
+}
+int impare_recursiv(int k)
+{
+	if (k>n)
+		return 1;
+	else 
+		if (v[k]%2!=0)
+		return v[k]*impare_recursiv(k+1);
+		else
+			return impare_recursiv(k+1);
+
+}
+
+int divide_locatie(int st,int dr,int numar)
+{	if (st==dr)
+		if (a[st]==numar)
+			return st;
+		else
+		{int mij =(st+dr)/2;
+			int d1=divide_locatie(st,mij,numar);
+			int d2=divide_locatie(mij+1,dr,numar);
+			return (-1)*d1*d2;
+}
+}
+
+int liber()
+{
+	for (int i=1;i<n;i++)
+		if(v[i]==0)
+			return i;
+}
+
+int cauta_loc(int j)
+{
+	for (int i=1;i<=n;i++)
+		if(v[i]==j && v[i]%2!=0)
+			return i;
+}
+
+void afisare()
+{
+	for(int i=1;i<=n;i++)
+		g<<v[i]<<" ";
+	g<<endl;
+}
+
+void ordonare_greedy()
+{
+	int ic,il;
+	for (int i=1;i<=n;i++)
+	{
+		{
+			ic=liber();
+			ic=cauta_loc(i);
+			v[il]=v[i];
+			v[i]=0;
+			v[i]=v[ic];
+			v[ic]=0;
+		}
+	}
+		afisare();
+}
+
+int main()
+{
+	citire();
+	copie();
+	afisare();
+	g<<endl;
+	g<<"ordonare greedy"<<endl;
+	ordonare_greedy();
+	g<<endl;
+	g<<"Produs elemente impare"<<endl;
+	g<<impare_recursiv(1);
+	g<<endl;
+	g<<"Locatia elementului 8"<<endl;
+	g<<divide_locatie(1,n,8);
+	getch();
+	return 0;
+
+}
