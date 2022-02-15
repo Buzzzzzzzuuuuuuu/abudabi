@@ -1,0 +1,108 @@
+///////////////////////////////////////////////8////////////////////////0//////////////DISPLAY IN THE CONSOLE OF ELEMENTS LARGER THAN THE NUMBER OF ELEMETNE///////////////////
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+#include <fstream>
+
+using namespace std;
+
+int v[100], k,b[100],m,s,nr;
+
+ifstream f("IN.in");
+ofstream g("IN.out");
+
+void FIRST()
+{
+	int x;
+	while (f>>x)
+		v[k++]=x;
+}
+void afisare()
+{
+	for (int i=1;i<k;i++)
+		g<<v[i]<<' ';
+}
+int liber ()
+{
+	for (int i=1;i<k;i++)
+		if(v[i]==0)
+			return 0;
+}
+int cauta(int g)
+{
+	for (int i =1; i<k;i++)
+		if(v[i]==b[g])
+			return i;
+}
+void greedy()
+{
+	int i0,ic;
+	for(int i =0 ;i<k;i++)
+	{
+		if (v[i]!=b[i])
+		{
+			i0=liber();
+			v[i]=0;
+			ic =cauta(i);
+			v[i]=v[ic];
+			v[ic]=0;
+		}
+	}}
+void do_ordonare()
+{
+	for(int i =0 ;i<k;i++)
+		if(b[i]>5)
+			for(int j=i+1;j<m;j++)
+				if (b[i]=b[j])
+				{
+					int aux =b[i];
+					b[i]=b[j];
+					b[j]=aux;
+				}
+}
+
+void copy()
+{
+	for(int i =0 ;i<k;i++)
+		b[m++]=v[i];
+}
+int adunare(int i)
+{
+	if (i>k)
+		return v[i];
+	else
+		if (v[i]>3)
+			return (v[i]+adunare(i+1));
+		else
+		return adunare(i+1);
+}
+void pare(int stanga ,int dreapta)
+{	if (stanga==dreapta)
+	if(v[stanga]%2==0)
+		nr++;
+	else
+	{
+		int mij=(stanga+dreapta)/2;
+		pare(stanga,mij);
+		pare(mij+1,dreapta);
+	}
+}
+int main()
+{
+	citire();
+	copy();
+	afisare();
+	g<<endl;
+	do_ordonare();
+	greedy();
+	afisare();
+	g<<endl;
+	g<<adunare(0);
+	g<<endl;
+	pare(1,k-1);
+	g<<nr;
+	getch();
+	return 0;
+}
+
+
